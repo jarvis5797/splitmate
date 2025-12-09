@@ -16,23 +16,6 @@ public class UserService {
 	
 	private final UserRepository userRepository;
 	
-	public UserResponse createUser(CreateUserRequest userRequest) {
-		User user = User.builder()
-					.name(userRequest.getName())
-					.email(userRequest.getEmail())
-					.phone(userRequest.getPhone())
-					.build();
-		
-		User savedUser = userRepository.save(user);
-		
-		return UserResponse.builder()
-				.id(savedUser.getId())
-				.name(savedUser.getName())
-				.email(savedUser.getEmail())
-				.phone(savedUser.getPhone())
-				.build();
-	}
-	
 	public UserResponse getUser(Long id) {
 		User user = userRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Unable to find user!"));
 		

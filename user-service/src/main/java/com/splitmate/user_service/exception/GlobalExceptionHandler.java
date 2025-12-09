@@ -14,12 +14,8 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(ResourceNotFoundException.class)
 	public ResponseEntity<ErrorResponse> handleNotFound(ResourceNotFoundException ex, WebRequest request){
 		
-		ErrorResponse response = ErrorResponse.builder()
-									.timestamp(LocalDateTime.now())
-									.message(ex.getMessage())
-									.path(request.getDescription(false))
-									.errorCode("NOT_FOUND")
-									.build();
+		ErrorResponse response = errorResponseBuilder(ex, request);
+		response.setErrorCode("NOT_FOUND");
 		
 		return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 		
@@ -28,12 +24,8 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(DuplicateResourceException.class)
 	public ResponseEntity<ErrorResponse> handleDuplicate(DuplicateResourceException ex, WebRequest request){
 		
-		ErrorResponse response = ErrorResponse.builder()
-									.timestamp(LocalDateTime.now())
-									.message(ex.getMessage())
-									.path(request.getDescription(false))
-									.errorCode("DUPLICATE")
-									.build();
+		ErrorResponse response = errorResponseBuilder(ex, request);
+		response.setErrorCode("DUPLICATE");
 		
 		return new ResponseEntity<>(response, HttpStatus.CONFLICT);
 	}
@@ -41,14 +33,37 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<ErrorResponse> handleException(Exception ex, WebRequest request){
 		
-		ErrorResponse response = ErrorResponse.builder()
-									.timestamp(LocalDateTime.now())
-									.message(ex.getMessage())
-									.path(request.getDescription(false))
-									.errorCode("INTERNAL_SERVER_ERROR")
-									.build();
+		ErrorResponse response = errorResponseBuilder(ex, request);
+		response.setErrorCode("INTERNAL_SERVER_ERROR");
 									
 		return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@ExceptionHandler(InvalidTokenException.class)
+	public ResponseEntity<ErrorResponse> handleInvalidToken(InvalidTokenException ex, WebRequest request){
+		
+		ErrorResponse response = errorResponseBuilder(ex, request);
+		response.setErrorCode("INVALID_TOKEN");
+		
+		return new ResponseEntity<>(response, HttpStatus.NOT_ACCEPTABLE);
+	}
+	
+	@ExceptionHandler(AuthenticationException.class)
+	public ResponseEntity<ErrorResponse> handleAuthentication(AuthenticationException ex, WebRequest request){
+		
+		ErrorResponse response = errorResponseBuilder(ex, request);
+		response.setErrorCode("INVALID_EMAIL_OR_PASSWORD");
+		
+		return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+	}
+	
+	private ErrorResponse errorResponseBuilder(Exception ex, WebRequest request) {
+		
+		return ErrorResponse.builder()
+				.timestamp(LocalDateTime.now())
+				.message(ex.getMessage())
+				.path(request.getDescription(false))
+				.build();
 	}
 
 }

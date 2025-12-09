@@ -18,3 +18,7 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
+
+security:
+  secret: THIS_IS_A_SECRET_KEY_FOR_SPLITMATE_256_BIT_SECRET
+  expiration-ms: 36000000
