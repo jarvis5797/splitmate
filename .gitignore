@@ -1,38 +1,25 @@
-# Maven
+# Maven target directory
 target/
-!.mvn/wrapper/maven-wrapper.jar
 
-# Gradle (if used)
-.gradle
-build/
+# Build dirs
+*/target/
+**/target/
 
-# IntelliJ
+# Ignore IDE files
 .idea/
 *.iml
-
-# VSCode
 .vscode/
-
-# Logs
-*.log
-logs/
+*.classpath
+*.project
+*.settings/
 
 # OS files
 .DS_Store
 Thumbs.db
 
-# Spring Boot
-application-local.yml
-application-dev.yml
+# Logs
+logs/
+*.log
 
-# Environment
+# Environment & config
 .env
-
-# Java
-*.class
-
-# Node (if you add UI later)
-node_modules/
-
-# Docker
-*.pid
